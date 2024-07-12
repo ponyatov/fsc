@@ -1,0 +1,8 @@
+%{
+%}
+
+%token <char> CHAR
+%start syntax
+%type <unit> syntax
+%%
+syntax: {}

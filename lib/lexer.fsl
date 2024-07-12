@@ -1,0 +1,9 @@
+{
+open FSharp.Text.Lexing
+open parser
+
+let lexeme lexbuf = LexBuffer<_>.LexemeString lexbuf
+}
+
+rule tokenize = parse
+| _  { lexeme lexbuf |> sprintf "Parsing error: %s" |> failwith }
