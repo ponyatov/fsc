@@ -1,2 +1,1 @@
-# `fsc`
-## VSCode fsc engine plugin
+../README.md
