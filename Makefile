@@ -11,9 +11,10 @@ DOTNET   = dotnet
 FANTOMAS = $(HOME)/.dotnet/tools/fantomas
 
 # src
-F = $(wildcard lib/*.fs)
+F = $(wildcard src/*.fs)
 C = $(wildcard src/*.c*)
 H = $(wildcard inc/*.h*)
+M = $(wildcard lib/*.m)
 
 # all
 .PHONY: all

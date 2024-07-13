@@ -1,0 +1,16 @@
+{
+    "name": "fsc",
+    "fileTypes": ["m"],
+    "patterns":[],
+    "repository": {
+        "comment": {
+            "patterns": [
+                {
+                    "comment": "line comment",
+                    "match": "#.*$",
+                    "name": "comment.line"
+                }
+            ]
+        }
+    }
+}
