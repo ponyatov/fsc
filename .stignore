@@ -1,0 +1,6 @@
+.git/**
+rc
+bin/**
+tmp/**
+obj/**
+ref/**
