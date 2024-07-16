@@ -17,6 +17,9 @@
     "files.watcherExclude": {
         "ref/**": true,
     },
+    "files.associations": {
+        ".*proj": "xml"
+    },
 
     // editor
     "editor.tabSize": 4,

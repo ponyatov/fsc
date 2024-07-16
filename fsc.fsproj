@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
@@ -6,16 +6,16 @@
     <FsYaccToolExe>fsyacc.dll</FsYaccToolExe>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="src/AST.fs" />
-    <FsYacc Include="lib/parser.fsy">
-      <OtherFlags>--module parser  -o lib/parser.fs</OtherFlags>
+    <FsYacc Include="src/parser.fsy">
+      <OtherFlags>--module parser  -o src/parser.fs</OtherFlags>
     </FsYacc>
-    <FsLex Include="lib/lexer.fsl">
-      <OtherFlags>--module lexer --unicode -o lib/lexer.fs</OtherFlags>
+    <FsLex Include="src/lexer.fsl">
+      <OtherFlags>--module lexer --unicode -o src/lexer.fs</OtherFlags>
     </FsLex>
-    <Compile Include="lib/parser.fs" />
-    <Compile Include="lib/lexer.fs" />
-    <Compile Include="lib/compiler.fs" />
+    <Compile Include="src/AST.fs" />
+    <Compile Include="src/parser.fs" />
+    <Compile Include="src/lexer.fs" />
+    <Compile Include="src/compiler.fs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FsLexYacc" Version="11.3.0" />

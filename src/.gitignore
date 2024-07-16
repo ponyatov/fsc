@@ -1,1 +1,5 @@
+lexer.fs
+lexer.fsi
+parser.fs
+parser.fsi
 !.gitignore 

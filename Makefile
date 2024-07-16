@@ -14,12 +14,12 @@ FANTOMAS = $(HOME)/.dotnet/tools/fantomas
 F = $(wildcard src/*.fs)
 C = $(wildcard src/*.c*)
 H = $(wildcard inc/*.h*)
-M = $(wildcard lib/*.m)
+M = lib/$(MODULE).ini $(wildcard lib/*.m)
 
 # all
 .PHONY: all
-all: $(F) $(C) $(H)
-	$(DOTNET) run $(C) $(H)
+all: $(M)
+	$(DOTNET) run $^
 
 # format
 .PHONY: format
