@@ -2,4 +2,3 @@ git make curl
 code meld doxygen clang-format
 g++ cmake flex bison libreadline-dev
 dotnet-sdk-8.0
-cgroup-tools

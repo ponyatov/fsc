@@ -11,7 +11,7 @@ DOTNET   = dotnet
 FANTOMAS = $(HOME)/.dotnet/tools/fantomas
 
 # src
-F = $(wildcard src/*.fs)
+F = src/AST.fs src/compiler.fs
 C = $(wildcard src/*.c*)
 H = $(wildcard inc/*.h*)
 M = lib/$(MODULE).ini $(wildcard lib/*.m)
