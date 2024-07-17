@@ -3,6 +3,12 @@
 
 module AST
 
+type Op =
+    | Add
+    | Sub
+    | Mul
+    | Div
+
 /// language expression
 type Expr =
     /// integer
@@ -12,12 +18,21 @@ type Expr =
     /// variable
     | Var of string
     /// binary operator
-    | BinOp of string * Expr * Expr
+    | BinOp of Op * Expr * Expr
+
+let i = (Int 123)
+let s = (Str "hello")
+let a = BinOp(Add, i, s)
+
+let rec eval (e: Expr) : int =
+    match e with
+    | Int i -> i
+    | Str s -> 0
+    | BinOp(Add, e1, e2) -> eval e1 + eval e2
+    | _ -> failwith "eval"
 
 let test = //
-    let i = (Int 123)
-    printfn "<%A>" i
-    let s = (Str "hello")
-    printfn "<%A>" s
-    printfn "<%A>" (BinOp("+", i, s))
+    printfn "<%A> -> %i" i (eval i)
+    printfn "<%A> -> %i" s (eval s)
+    printfn "<%A> -> %i" a (eval a)
     0
