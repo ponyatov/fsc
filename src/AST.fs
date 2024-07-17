@@ -52,5 +52,5 @@ let test = //
     printfn "env: <%A>" (lookup env "zero")
     printfn "<%A> -> %i" i (eval i)
     printfn "<%A> -> %i" a (eval a)
-    printfn "<%A> -> %i" a (eval p)
+    printfn "<%A> -> %i" p (eval p)
     0
