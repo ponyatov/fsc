@@ -13,3 +13,11 @@ type Expr =
     | Var of string
     /// binary operator
     | BinOp of string * Expr * Expr
+
+let test = //
+    let i = (Int 123)
+    printfn "<%A>" i
+    let s = (Str "hello")
+    printfn "<%A>" s
+    printfn "<%A>" (BinOp("+", i, s))
+    0

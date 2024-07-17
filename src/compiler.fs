@@ -9,4 +9,4 @@ let main (argv: string array) =
     for arg in argv do
         printfn "%s" arg
 
-    0
+    AST.test
