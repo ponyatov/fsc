@@ -24,6 +24,7 @@ let i = (Int 123)
 let s = (Int 456)
 let a = BinOp(Add, i, s)
 let p = Pfx(Sub, a)
+let v = Var("zero")
 
 /// global environment
 let env =
@@ -46,11 +47,12 @@ let rec eval (e: Expr) : int =
     | Int i -> i
     | BinOp(Add, e1, e2) -> (eval e1) + (eval e2)
     | Pfx(Sub, e) -> -(eval e)
+    | Var v -> lookup env v
     | _ -> failwith "eval"
 
-let test = //
-    printfn "env: <%A>" (lookup env "zero")
+let test =
     printfn "<%A> -> %i" i (eval i)
     printfn "<%A> -> %i" a (eval a)
     printfn "<%A> -> %i" p (eval p)
+    printfn "<%A> -> %i" v (eval v)
     0

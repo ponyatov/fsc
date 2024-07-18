@@ -3,7 +3,6 @@
 
 open AST
 
-
 [<EntryPoint>]
 let main (argv: string array) =
     for arg in argv do
