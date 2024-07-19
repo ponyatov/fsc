@@ -1,0 +1,15 @@
+{
+    "name": "fsc",
+    "displayName": "F# compiler engine",
+    "version": "0.0.1",
+    "publisher": "dponyatov",
+    "author": {
+        "name": "Dmitry Ponyatov",
+        "email": "dponyatov@gmail.com"
+    },
+    "homepage": "https://github.com/ponyatov/fsc",
+    "icon": "logo.png",
+    "engines": {
+        "vscode": "^1.50.0"
+    }
+}
