@@ -40,7 +40,6 @@ let rec lookup env x =
     | [] -> failwith $"%A{x} not found"
     | (k, v) :: r -> if x = k then v else lookup r x
 
-
 /// evaluate Expr as calculator
 let rec eval (e: Expr) : int =
     match e with
@@ -51,8 +50,8 @@ let rec eval (e: Expr) : int =
     | _ -> failwith "eval"
 
 let test =
-    printfn "<%A> -> %i" i (eval i)
-    printfn "<%A> -> %i" a (eval a)
-    printfn "<%A> -> %i" p (eval p)
-    printfn "<%A> -> %i" v (eval v)
+    assert ($"{i} -> {eval i}" = "Int 123 -> 123")
+    assert ($"{a} -> {eval a}" = "BinOp (Add, Int 123, Int 456) -> 579")
+    assert ($"{p} -> {eval p}" = "Pfx (Sub, BinOp (Add, Int 123, Int 456)) -> -579")
+    assert ($"{v} -> {eval v}" = """Var "zero" -> 0""")
     0
