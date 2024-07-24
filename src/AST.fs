@@ -50,8 +50,8 @@ let rec eval (e: Expr) : int =
     | _ -> failwith "eval"
 
 let test =
-    assert ($"{i} -> {eval i}" = "Int 123 -> 123")
-    assert ($"{a} -> {eval a}" = "BinOp (Add, Int 123, Int 456) -> 579")
-    assert ($"{p} -> {eval p}" = "Pfx (Sub, BinOp (Add, Int 123, Int 456)) -> -579")
-    assert ($"{v} -> {eval v}" = """Var "zero" -> 0""")
+    assert ($"{i} /{eval i}" = "Int 123 /123")
+    assert ($"{a} /{eval a}" = "BinOp (Add, Int 123, Int 456) /579")
+    assert ($"{p} /{eval p}" = "Pfx (Sub, BinOp (Add, Int 123, Int 456)) /-579")
+    assert ($"{v} /{eval v}" = """Var "zero" /0""")
     0
