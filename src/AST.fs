@@ -4,10 +4,10 @@
 module AST
 
 type Op =
-    | Add
-    | Sub
-    | Mul
-    | Div
+    | Plus
+    | Minus
+    | Star
+    | Slash
 
 /// language expression
 type Expr =
@@ -22,8 +22,8 @@ type Expr =
 
 let i = (Int 123)
 let s = (Int 456)
-let a = BinOp(Add, i, s)
-let p = Pfx(Sub, a)
+let a = BinOp(Plus, i, s)
+let p = Pfx(Minus, a)
 let v = Var("zero")
 
 /// global environment
@@ -44,14 +44,14 @@ let rec lookup env x =
 let rec eval (e: Expr) : int =
     match e with
     | Int i -> i
-    | BinOp(Add, e1, e2) -> (eval e1) + (eval e2)
-    | Pfx(Sub, e) -> -(eval e)
+    | BinOp(Plus, e1, e2) -> (eval e1) + (eval e2)
+    | Pfx(Minus, e) -> -(eval e)
     | Var v -> lookup env v
     | _ -> failwith "eval"
 
 let test =
     assert ($"{i} /{eval i}" = "Int 123 /123")
-    assert ($"{a} /{eval a}" = "BinOp (Add, Int 123, Int 456) /579")
-    assert ($"{p} /{eval p}" = "Pfx (Sub, BinOp (Add, Int 123, Int 456)) /-579")
+    assert ($"{a} /{eval a}" = "BinOp (Plus, Int 123, Int 456) /579")
+    assert ($"{p} /{eval p}" = "Pfx (Minus, BinOp (Plus, Int 123, Int 456)) /-579")
     assert ($"{v} /{eval v}" = """Var "zero" /0""")
     0
