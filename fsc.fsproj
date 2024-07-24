@@ -19,6 +19,5 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FsLexYacc" Version="11.3.0" />
-    <PackageReference Include="Unquote" Version="7.0.0" />
   </ItemGroup>
 </Project>

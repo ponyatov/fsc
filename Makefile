@@ -18,8 +18,15 @@ M = lib/$(MODULE).ini $(wildcard lib/*.m)
 
 # all
 .PHONY: all
-all: $(M)
-	$(DOTNET) run $^
+all: run
+
+.PHONY: run
+run: $(M)
+	$(DOTNET) $@ $^
+
+.PHONY: test
+test: $(F)
+	$(DOTNET) $@
 
 # format
 .PHONY: format
