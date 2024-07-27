@@ -5,12 +5,20 @@ module compiler
 
 open AST
 
-type VMCmd =
+type Cmd0 =
     // control
     /// `( -- )` do nothing
     | Nop = 0x00uy
     /// `( -- )` stop system
     | Halt = 0xFFuy
+    /// `( -- )` unconditional jump
+    |Jmp = 0x01uy
+    /// `( zero -- )` jump if zero
+    |Jz = 0x02uy
+    /// `R:( -- addr )` nested call
+    | Call = 0x03uy
+    /// `R:( addr -- )` return from nested call
+    | Ret = 0x04uy
     // stack
     /// `( n -- n n )`
     | Dup = 0x10uy
@@ -32,14 +40,14 @@ type VMCmd =
 
 type ByteCode =
     /// single command
-    | Cmd of VMCmd
+    | Cmd0 of Cmd0
     /// single-path block
     | Block of ByteCode array
 
-let dumblock = Block([| Cmd VMCmd.Nop; Cmd VMCmd.Halt |])
+let dumblock = Block([| Cmd0 Cmd0.Nop; Cmd0 Cmd0.Halt |])
 
 let test = //
-    assert ($"{dumblock}" = "Block [|Cmd Nop; Cmd Halt|]")
+    assert ($"{dumblock}" = "Block [|Cmd0 Nop; Cmd0 Halt|]")
 
 [<EntryPoint>]
 let main (argv: string array) =
