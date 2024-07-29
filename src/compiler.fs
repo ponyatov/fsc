@@ -203,6 +203,9 @@ let mainc = //
       ""
       "int main(int argc, char *argv[]) {  //"
       "\targ(0, argv[0]);"
+      "\tfor (int i = 1; i < argc; i++) {  //"
+      "\t\targ(i, argv[i]);"
+      "\t}"
       "\tbc((byte)cmd::nop); bc((byte)cmd::halt);"
       "\tvm();"
       "}" ]
