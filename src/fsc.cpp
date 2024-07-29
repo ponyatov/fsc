@@ -2,8 +2,8 @@
 
 int main(int argc, char *argv[]) {  //
     arg(0, argv[0]);
-    bc(nop);
-    bc(halt);
+    bc((byte)cmd::nop);
+    bc((byte)cmd::halt);
     vm();
 }
 
@@ -32,7 +32,7 @@ void vm() {
     }
 }
 
-void bc(uint8_t b) {
+void bc(byte b) {
     assert(Cp < Msz);
     M[Cp++] = b;
 }

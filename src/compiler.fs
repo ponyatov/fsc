@@ -135,9 +135,9 @@ let vmh =
       ""
       "extern void vm();"
       ""
-      "enum Cmd { nop = 0x00, halt = 0xFF };"
+      "enum class cmd : byte { nop = 0x00, halt = 0xFF };"
       ""
-      "extern void bc(uint8_t b);" ]
+      "extern void bc(byte b);" ]
 
 let vmc =
     [ //
@@ -153,7 +153,7 @@ let vmc =
       "\t}"
       "}"
       ""
-      "void bc(uint8_t b) {"
+      "void bc(byte b) {"
       "\tassert(Cp < Msz); M[Cp++] = b;"
       "}" ]
 
@@ -190,7 +190,7 @@ let mainc = //
       ""
       "int main(int argc, char *argv[]) {  //"
       "\targ(0, argv[0]);"
-      "\tbc(nop); bc(halt);"
+      "\tbc((byte)cmd::nop); bc((byte)cmd::halt);"
       "\tvm();"
       "}" ]
 

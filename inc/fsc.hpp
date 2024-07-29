@@ -29,6 +29,6 @@ extern ucell Dp;
 
 extern void vm();
 
-enum Cmd { nop = 0x00, halt = 0xFF };
+enum class cmd : byte { nop = 0x00, halt = 0xFF };
 
-extern void bc(uint8_t b);
+extern void bc(byte b);
