@@ -101,12 +101,23 @@ let vmconfig =
       $"#define Rsz 0x%x{Rsz}"
       $"#define Dsz 0x%x{Dsz}" ]
 
+let vmtypes =
+    [ //
+      ""
+      "#define byte   uint8_t"
+      "#define cell   int16_t"
+      "#define ucell uint16_t" ]
+
 let memh =
     [ //
       ""
-      "extern uint8_t M[Msz];"
-      "extern uint16_t Cp;"
-      "extern uint16_t Ip;" ]
+      "extern  byte M[Msz];"
+      "extern ucell Cp;"
+      "extern ucell Ip;"
+      "extern ucell R[Rsz];"
+      "extern ucell Rp;"
+      "extern  cell D[Dsz];"
+      "extern ucell Dp;" ]
 
 let memc =
     [ //
@@ -136,7 +147,13 @@ let vmc =
       "\t\t\t\tfprintf(stderr, \"???\\n\", op); abort();"
       "\t\t}"
       "\t}"
-      "}" ]
+      "}"
+      ""
+      "void bc(uint8_t b) {"
+      "\tassert(Cp < Msz); M[Cp++] = b;"
+      "}"
+
+      ]
 
 let mainh =
     [ //
@@ -159,6 +176,7 @@ let hpp = //
           "#include <vector>" ]
         @ mainh
         @ vmconfig
+        @ vmtypes
         @ memh
         @ vmh
     )

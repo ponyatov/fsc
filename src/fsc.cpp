@@ -27,3 +27,8 @@ void vm() {
         }
     }
 }
+
+void bc(uint8_t b) {
+    assert(Cp < Msz);
+    M[Cp++] = b;
+}
