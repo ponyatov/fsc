@@ -11,9 +11,13 @@ void arg(int argc, char *argv) {  //
     fprintf(stderr, "argv[%i] = <%s>\n", argc, argv);
 }
 
-uint8_t M[Msz];
-uint16_t Cp = 0;
-uint16_t Ip = 0;
+byte M[Msz];
+ucell Cp = 0;
+ucell Ip = 0;
+ucell R[Rsz];
+ucell Rp = 0;
+cell D[Dsz];
+ucell Dp = 0;
 
 void vm() {
     while (true) {
