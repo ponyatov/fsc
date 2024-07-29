@@ -82,6 +82,25 @@ let dumblock = Block([| Cmd0 Cmd0.Nop; Cmd0 Cmd0.Halt |])
 let test = //
     assert ($"{dumblock}" = "Block [|Cmd0 Nop; Cmd0 Halt|]")
 
+[<Literal>]
+/// memory size, bytes
+let Msz = 0x10000
+
+[<Literal>]
+/// return stack size, ucells
+let Rsz = 0x100
+
+[<Literal>]
+/// data stack size, cells
+let Dsz = 0x10
+
+let vmconfig =
+    [ //
+      ""
+      $"#define Msz 0x%x{Msz}"
+      $"#define Rsz 0x%x{Rsz}"
+      $"#define Dsz 0x%x{Dsz}" ]
+
 let hpp = //
     File.WriteAllLines(
         @"inc/fsc.hpp",
@@ -98,14 +117,13 @@ let hpp = //
           ""
           "extern int main(int argc, char *argv[]);"
           "extern void arg(int argc, char *argv);" ]
+        @ vmconfig
     )
     |> ignore
 
+
 let cmain = //
-    [ "" 
-      "int main(int argc, char *argv[]) {  //"
-      "\targ(0, argv[0]);"
-      "}" ]
+    [ ""; "int main(int argc, char *argv[]) {  //"; "\targ(0, argv[0]);"; "}" ]
 
 let arg = //
     [ ""
