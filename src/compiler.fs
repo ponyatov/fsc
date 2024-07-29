@@ -145,8 +145,10 @@ let vmc =
       "void vm() {"
       "\twhile (true) {"
       "\t\tassert(Ip < Cp); uint8_t op = M[Ip++];"
-      "\t\tfprintf(stderr, \"%.4X: %.2X \", Ip - 1, op);"
-      "\t\tswitch (op) {"
+      "\t\tfprintf(stderr, \"\\n%.4X: %.2X \", Ip - 1, op);"
+      "\t\tswitch ((cmd)op) {"
+      "\t\t\tcase cmd::nop:  nop();  break;"
+      "\t\t\tcase cmd::halt: halt(); break;"
       "\t\t\tdefault:"
       "\t\t\t\tfprintf(stderr, \"???\\n\", op); abort();"
       "\t\t}"
@@ -162,6 +164,16 @@ let mainh =
       ""
       "extern int main(int argc, char *argv[]);"
       "extern void arg(int argc, char *argv);" ]
+
+let cmdh =
+    [ //
+      ""
+      "extern void nop();"
+      "extern void halt();" ]
+
+let nopc = [ ""; "void nop() { //\nfprintf(stderr,\"nop\"); }" ]
+let haltc = [ ""; "void halt() { fprintf(stderr,\"halt\\n\"); exit(0); }" ]
+let cmdc = [ "" ] @ nopc @ haltc
 
 let hpp = //
     File.WriteAllLines(
@@ -181,6 +193,7 @@ let hpp = //
         @ vmtypes
         @ memh
         @ vmh
+        @ cmdh
     )
     |> ignore
 
@@ -209,6 +222,7 @@ let cpp = //
         @ argc
         @ memc
         @ vmc
+        @ cmdc
 
     )
     |> ignore

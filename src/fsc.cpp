@@ -23,8 +23,14 @@ void vm() {
     while (true) {
         assert(Ip < Cp);
         uint8_t op = M[Ip++];
-        fprintf(stderr, "%.4X: %.2X ", Ip - 1, op);
-        switch (op) {
+        fprintf(stderr, "\n%.4X: %.2X ", Ip - 1, op);
+        switch ((cmd)op) {
+            case cmd::nop:
+                nop();
+                break;
+            case cmd::halt:
+                halt();
+                break;
             default:
                 fprintf(stderr, "???\n", op);
                 abort();
@@ -35,4 +41,13 @@ void vm() {
 void bc(byte b) {
     assert(Cp < Msz);
     M[Cp++] = b;
+}
+
+void nop() {  //
+    fprintf(stderr, "nop");
+}
+
+void halt() {
+    fprintf(stderr, "halt\n");
+    exit(0);
 }

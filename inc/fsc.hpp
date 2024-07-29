@@ -32,3 +32,6 @@ extern void vm();
 enum class cmd : byte { nop = 0x00, halt = 0xFF };
 
 extern void bc(byte b);
+
+extern void nop();
+extern void halt();
