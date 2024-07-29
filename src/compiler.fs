@@ -4,6 +4,7 @@
 module compiler
 
 open AST
+open System.IO
 
 /// command with argument
 type Cmd1 =
@@ -80,6 +81,52 @@ let dumblock = Block([| Cmd0 Cmd0.Nop; Cmd0 Cmd0.Halt |])
 
 let test = //
     assert ($"{dumblock}" = "Block [|Cmd0 Nop; Cmd0 Halt|]")
+
+let hpp = //
+    File.WriteAllLines(
+        @"inc/fsc.hpp",
+        [ //
+          "#pragma once"
+          ""
+          "#include <stdio.h>"
+          "#include <stdlib.h>"
+          "#include <assert.h>"
+          ""
+          "#include <iostream>"
+          "#include <map>"
+          "#include <vector>"
+          ""
+          "extern int main(int argc, char *argv[]);"
+          "extern void arg(int argc, char *argv);" ]
+    )
+    |> ignore
+
+let cmain = //
+    [ "" 
+      "int main(int argc, char *argv[]) {  //"
+      "\targ(0, argv[0]);"
+      "}" ]
+
+let arg = //
+    [ ""
+      "void arg(int argc, char *argv) {  //"
+      "\tfprintf(stderr, \"argv[%i] = <%s>\\n\", argc, argv);"
+      "}" ]
+
+let cpp = //
+    File.WriteAllLines(
+        @"src/fsc.cpp",
+        [ //
+          "#include \"fsc.hpp\"" ]
+        @ cmain
+        @ arg
+
+    )
+    |> ignore
+
+let cgen = //
+    hpp
+    cpp
 
 [<EntryPoint>]
 let main (argv: string array) =

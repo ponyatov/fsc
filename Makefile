@@ -16,9 +16,16 @@ C = $(wildcard src/*.c*)
 H = $(wildcard inc/*.h*)
 M = lib/$(MODULE).ini $(wildcard lib/*.m)
 
+# cfg
+CFLAGS += -Iinc -Itmp
+
 # all
 .PHONY: all
-all: run
+all: bin/$(MODULE) $(M)
+	$^
+
+$(C) $(H): $(F) src/lexer.fsl src/parser.fsy
+	$(MAKE) run
 
 .PHONY: run
 run: $(M)
@@ -30,9 +37,15 @@ test: $(F)
 
 # format
 .PHONY: format
-format: tmp/format_fs
+format: tmp/format_fs tmp/format_cpp
 tmp/format_fs: $(F)
 	$(FANTOMAS) $? && touch $@
+tmp/format_cpp: $(C) $(H)
+	$(CF) $? && touch $@
+
+# rule
+bin/$(MODULE): $(C) $(H)
+	$(CXX) $(CFLAGS) -o $@ $(C) $(L)
 
 # install
 .PHONY: install update ref gz
