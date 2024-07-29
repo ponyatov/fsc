@@ -63,15 +63,16 @@ type Cmd0 =
     | And = 0x27uy
     /// `( n1 n2 -- n1^n2 )`
     | Xor = 0x28uy
-
-    /// `( n1 n2 -- n1 << n2 )` bit shift left
+    /// `( n1 n2 -- n1<<n2 )` bit shift left
     | Shl = 0x29uy
-    /// `( n1 n2 -- n1 >> n2 )` bit shift right
+    /// `( n1 n2 -- n1>>n2 )` bit shift right
     | Shr = 0x2Auy
 
 type ByteCode =
     /// single command
     | Cmd0 of Cmd0
+    /// single argument
+    | Cmd1 of Cmd1 * int
     /// single-path block
     | Block of ByteCode array
 
