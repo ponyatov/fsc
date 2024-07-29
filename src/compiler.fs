@@ -101,6 +101,49 @@ let vmconfig =
       $"#define Rsz 0x%x{Rsz}"
       $"#define Dsz 0x%x{Dsz}" ]
 
+let memh =
+    [ //
+      ""
+      "extern uint8_t M[Msz];"
+      "extern uint16_t Cp;"
+      "extern uint16_t Ip;" ]
+
+let memc =
+    [ //
+      ""
+      "uint8_t M[Msz];"
+      "uint16_t Cp = 0;"
+      "uint16_t Ip = 0;" ]
+
+let vmh =
+    [ //
+      ""
+      "extern void vm();"
+      ""
+      "enum Cmd { nop = 0x00, halt = 0xFF };"
+      ""
+      "extern void bc(uint8_t b);" ]
+
+let vmc =
+    [ //
+      ""
+      "void vm() {"
+      "\twhile (true) {"
+      "\t\tassert(Ip < Cp); uint8_t op = M[Ip++];"
+      "\t\tfprintf(stderr, \"%.4X: %.2X \", Ip - 1, op);"
+      "\t\tswitch (op) {"
+      "\t\t\tdefault:"
+      "\t\t\t\tfprintf(stderr, \"???\\n\", op); abort();"
+      "\t\t}"
+      "\t}"
+      "}" ]
+
+let mainh =
+    [ //
+      ""
+      "extern int main(int argc, char *argv[]);"
+      "extern void arg(int argc, char *argv);" ]
+
 let hpp = //
     File.WriteAllLines(
         @"inc/fsc.hpp",
@@ -113,19 +156,25 @@ let hpp = //
           ""
           "#include <iostream>"
           "#include <map>"
-          "#include <vector>"
-          ""
-          "extern int main(int argc, char *argv[]);"
-          "extern void arg(int argc, char *argv);" ]
+          "#include <vector>" ]
+        @ mainh
         @ vmconfig
+        @ memh
+        @ vmh
     )
     |> ignore
 
 
-let cmain = //
-    [ ""; "int main(int argc, char *argv[]) {  //"; "\targ(0, argv[0]);"; "}" ]
+let mainc = //
+    [ //
+      ""
+      "int main(int argc, char *argv[]) {  //"
+      "\targ(0, argv[0]);"
+      "\tbc(nop); bc(halt);"
+      "\tvm();"
+      "}" ]
 
-let arg = //
+let argc = //
     [ ""
       "void arg(int argc, char *argv) {  //"
       "\tfprintf(stderr, \"argv[%i] = <%s>\\n\", argc, argv);"
@@ -136,8 +185,10 @@ let cpp = //
         @"src/fsc.cpp",
         [ //
           "#include \"fsc.hpp\"" ]
-        @ cmain
-        @ arg
+        @ mainc
+        @ argc
+        @ memc
+        @ vmc
 
     )
     |> ignore
