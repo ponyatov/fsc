@@ -24,8 +24,8 @@ CFLAGS += -Iinc -Itmp
 all: bin/$(MODULE) $(M)
 	$^
 
-$(C) $(H): $(F) src/lexer.fsl src/parser.fsy
-	$(MAKE) run
+# $(C) $(H): $(F) src/lexer.fsl src/parser.fsy
+# 	$(MAKE) run
 
 .PHONY: run
 run: $(M)
