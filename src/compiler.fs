@@ -139,7 +139,8 @@ let vmh =
       ""
       "extern void bc(byte b);" ]
 
-let t (n:int): string = String.replicate (n*4) " " 
+let t (n: int) : string = String.replicate (n * 4) " "
+
 let vmc =
     [ //
       ""
@@ -172,7 +173,10 @@ let cmdh =
       "extern void halt();" ]
 
 let nopc = [ $"\nvoid nop() {{  //\n{t 1}fprintf(stderr, \"nop\");\n}}" ]
-let haltc = [ $"\nvoid halt() {{\n{t 1}fprintf(stderr, \"halt\\n\");\n{t 1}exit(0);\n}}" ]
+
+let haltc =
+    [ $"\nvoid halt() {{\n{t 1}fprintf(stderr, \"halt\\n\");\n{t 1}exit(0);\n}}" ]
+
 let cmdc = nopc @ haltc
 
 let hpp = //
