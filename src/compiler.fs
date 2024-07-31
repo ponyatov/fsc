@@ -104,30 +104,30 @@ let vmconfig =
 let vmtypes =
     [ //
       ""
-      "#define byte   uint8_t"
-      "#define cell   int16_t"
+      "#define byte uint8_t"
+      "#define cell int16_t"
       "#define ucell uint16_t" ]
 
 let memh =
     [ //
       ""
-      "extern  byte M[Msz];"
+      "extern byte M[Msz];"
       "extern ucell Cp;"
       "extern ucell Ip;"
       "extern ucell R[Rsz];"
       "extern ucell Rp;"
-      "extern  cell D[Dsz];"
+      "extern cell D[Dsz];"
       "extern ucell Dp;" ]
 
 let memc =
     [ //
       ""
-      "byte  M[Msz];"
+      "byte M[Msz];"
       "ucell Cp = 0;"
       "ucell Ip = 0;"
       "ucell R[Rsz];"
       "ucell Rp = 0;"
-      "cell  D[Dsz];"
+      "cell D[Dsz];"
       "ucell Dp = 0;" ]
 
 let vmh =
@@ -139,24 +139,24 @@ let vmh =
       ""
       "extern void bc(byte b);" ]
 
+let t (n:int): string = String.replicate (n*4) " " 
 let vmc =
     [ //
       ""
       "void vm() {"
-      "\twhile (true) {"
-      "\t\tassert(Ip < Cp); uint8_t op = M[Ip++];"
-      "\t\tfprintf(stderr, \"\\n%.4X: %.2X \", Ip - 1, op);"
-      "\t\tswitch ((cmd)op) {"
-      "\t\t\tcase cmd::nop:  nop();  break;"
-      "\t\t\tcase cmd::halt: halt(); break;"
-      "\t\t\tdefault:"
-      "\t\t\t\tfprintf(stderr, \"???\\n\", op); abort();"
-      "\t\t}"
-      "\t}"
+      $"{t 1}while (true) {{"
+      $"{t 2}assert(Ip < Cp);\n{t 2}uint8_t op = M[Ip++];"
+      $"{t 2}fprintf(stderr, \"\\n%%.4X: %%.2X \", Ip - 1, op);"
+      $"{t 2}switch ((cmd)op) {{"
+      $"{t 3}case cmd::nop:\n{t 4}nop();\n{t 4}break;"
+      $"{t 3}case cmd::halt:\n{t 4}halt();\n{t 4}break;"
+      $"{t 3}default:\n{t 4}fprintf(stderr, \"???\\n\", op);\n{t 4}abort();"
+      $"{t 2}}}"
+      $"{t 1}}}"
       "}"
       ""
       "void bc(byte b) {"
-      "\tassert(Cp < Msz); M[Cp++] = b;"
+      $"{t 1}assert(Cp < Msz);\n{t 1}M[Cp++] = b;"
       "}" ]
 
 let mainh =
@@ -171,9 +171,9 @@ let cmdh =
       "extern void nop();"
       "extern void halt();" ]
 
-let nopc = [ ""; "void nop() { //\nfprintf(stderr,\"nop\"); }" ]
-let haltc = [ ""; "void halt() { fprintf(stderr,\"halt\\n\"); exit(0); }" ]
-let cmdc = [ "" ] @ nopc @ haltc
+let nopc = [ $"\nvoid nop() {{  //\n{t 1}fprintf(stderr, \"nop\");\n}}" ]
+let haltc = [ $"\nvoid halt() {{\n{t 1}fprintf(stderr, \"halt\\n\");\n{t 1}exit(0);\n}}" ]
+let cmdc = nopc @ haltc
 
 let hpp = //
     File.WriteAllLines(
@@ -202,18 +202,18 @@ let mainc = //
     [ //
       ""
       "int main(int argc, char *argv[]) {  //"
-      "\targ(0, argv[0]);"
-      "\tfor (int i = 1; i < argc; i++) {  //"
-      "\t\targ(i, argv[i]);"
-      "\t}"
-      "\tbc((byte)cmd::nop); bc((byte)cmd::halt);"
-      "\tvm();"
+      $"{t 1}arg(0, argv[0]);"
+      $"{t 1}for (int i = 1; i < argc; i++) {{  //"
+      $"{t 2}arg(i, argv[i]);"
+      $"{t 1}}}"
+      $"{t 1}bc((byte)cmd::nop);\n{t 1}bc((byte)cmd::halt);"
+      $"{t 1}vm();"
       "}" ]
 
 let argc = //
     [ ""
       "void arg(int argc, char *argv) {  //"
-      "\tfprintf(stderr, \"argv[%i] = <%s>\\n\", argc, argv);"
+      $"{t 1}fprintf(stderr, \"argv[%%i] = <%%s>\\n\", argc, argv);"
       "}" ]
 
 let cpp = //
